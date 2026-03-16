@@ -1,11 +1,8 @@
 <?php
 
-use App\Providers\AppServiceProvider;
-use App\Providers\HorizonServiceProvider;
-use App\Providers\TelescopeServiceProvider;
-
 return [
-    AppServiceProvider::class,
-    HorizonServiceProvider::class,
-    TelescopeServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    App\Providers\HorizonServiceProvider::class,
+    App\Providers\RateLimitServiceProvider::class,
+    App\Providers\TelescopeServiceProvider::class,
 ];

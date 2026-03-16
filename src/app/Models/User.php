@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'failed_login_attempts',
+        'locked_until',
+        'last_login_at',
     ];
 
     /**
@@ -45,6 +47,31 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'locked_until' => 'datetime',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    public function isLocked(): bool
+    {
+        return $this->locked_until && $this->locked_until->isFuture();
+    }
+
+    public function lock(int $durationMinutes): void
+    {
+        $this->locked_until = now()->addMinutes($durationMinutes);
+        $this->save();
+    }
+
+    public function unlock(): void
+    {
+        $this->failed_login_attempts = 0;
+        $this->locked_until = null;
+        $this->save();
+    }
+
+    public function otpLogs()
+    {
+        return $this->hasMany(OtpLog::class);
     }
 }

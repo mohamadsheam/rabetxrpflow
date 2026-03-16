@@ -114,4 +114,26 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    'lockout' => [
+        'max_attempts' => (int) env('LOGIN_MAX_ATTEMPTS', 5),
+        'duration' => (int) env('LOGIN_LOCKOUT_DURATION', 30),
+    ],
+
+    'otp' => [
+        'expiry_minutes' => (int) env('OTP_EXPIRY_MINUTES', 3),
+        'length' => (int) env('OTP_LENGTH', 6),
+        'max_attempts' => 3,
+    ],
+
+    'rate_limit' => [
+        'login' => [
+            'max_attempts' => 15,
+            'duration' => 60,
+        ],
+        'forgot_password' => [
+            'max_attempts' => 10,
+            'duration' => 60,
+        ],
+    ],
+
 ];
